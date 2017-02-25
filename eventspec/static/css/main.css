@@ -1,0 +1,11 @@
+
+
+.target-panel {
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}

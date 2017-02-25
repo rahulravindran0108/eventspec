@@ -1,0 +1,70 @@
+{%  extends "base.html" %}
+{%  block content %}
+
+    <div class="container-fluid">
+        <h1>Eventspec</h1>
+        <span>Eventspec is a simple application used to generate/document events.</span>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default source-panel">
+                    <div class="panel-heading">
+                        <span>Source</span>
+                        <button id="save-changes" class="btn btn-sm btn-success pull-right">Save Changes</button>
+                    </div>
+                    <div class="panel-body">
+                        <textarea id="code" ></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default target-panel">
+                    <div class="panel-heading">
+                        <span>Target</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="html-target-code"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%  endblock %}
+
+{% block tail_js %}
+{{ super() }}
+    <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script>
+    document.onload = init();
+
+    function init() {
+        editor = CodeMirror.fromTextArea(document.getElementById("code"), {lineNumbers: true, viewportMargin: Infinity});
+        bindEvents();
+    }
+
+    function bindEvents(){
+        $("#save-changes").on('click', function(e) {
+            var sourceText = editor.getValue();
+            console.log(sourceText);
+
+            $.ajax({
+                type: "GET",
+                url: "/api/v1/convert",
+                data: {
+                    source: sourceText
+                },
+                success: function(data) {
+                    console.log(data.result);
+                    $("#html-target-code").html(data.result);
+                },
+                error: function (err) {
+
+                }
+            })
+        });
+    }
+
+</script>
+{%  endblock %}

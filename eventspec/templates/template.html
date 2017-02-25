@@ -1,0 +1,18 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <th>Key</th>
+            <th>Value</th>
+        </thead>
+        <tbody>
+            {% for prop_keys in properties %}
+                    {%  for x in properties[prop_keys] %}
+                        <tr>
+                            <td>{{ x }}</td>
+                            <td>{{ properties[prop_keys][x] }}</td>
+                        </tr>
+                    {%  endfor %}
+            {%  endfor %}
+        </tbody>
+    </table>
+</div>
