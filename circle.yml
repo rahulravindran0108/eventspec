@@ -1,0 +1,12 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker build --rm=false -t eventspec .
+
+test:
+  override:
+    - docker run -p 9000:9000 eventspec; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:9000
